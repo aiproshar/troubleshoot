@@ -1,7 +1,7 @@
 
 # The Baic Observability for first 60 seconds
 
-Whenever we need to execute an investigation, we first run these. These are an overview to the whole system
+Whenever we need to execute an investigation, we first run these. These are an overview to the whole system. From the very first 60 seconds, we need to have a general understanding of whats wrong (or even if anything wrong), and then deep dive to related section (Network stack, device stack, kernel...)
 
 
 
@@ -13,10 +13,12 @@ input
 uptime
 ```
 output
+![alt text](image-2.png)
 
 ```bash
- ---------- load average: {1 minute} {5 minute} {15 minute}
-```
+ ---------- load average: {1 minute}, {5 minute}, {15 minute}
+ ```
+
 CPU initial check, are we bottlenecking CPU recently
 
 
@@ -46,6 +48,22 @@ MiB Mem: Physical Memory
 - free: completely unused, imediaeatly available (doesn't include buffer, cache)
 - used: Wired In memory, process + linux in total
 - buff/cache: page metadata and page in cache (for faster access, no going disk)
+
+
+## mpstat
+
+Check if we getting hogged in any single thread process
+
+
+
+```bash
+mpstat -P ALL 1 # All cores info, update 1 sec
+```
+
+![alt text](image-4.png)
+
+- irq -> hardware interrupt queue
+- soft -> software interrupt queue
 
 ## vmstat (use dstat if available)
 
@@ -80,14 +98,49 @@ vmstat -Sm 1  w #Sm: S->unit m-> Mib  1 -> refresh time w-> wide output
 Interrupt handled and returns to same process = no context switch
 Interrupt wakes up higher priority process = context switch occurs
 
-1-5 context switch per interrupt healthy ratio
+1-5 context switch per interrupt healty ratio
 
 ### cpu section -> same as top
 
 
+# iostat
+
+I/O devices with detailed activity
+
+```bash
+iostat -xmdz #x->extented m->MiB d->device stats only z->zero supress (remove device with zero activity)
+```
+```bash
+iostat -xmdz 1 #refresh every second but no screen clear, use watch -n 1 if needed
+```
+
+![alt text](image-3.png)
+
+#### Read Ops
+- r/s -> read per sec
+- *__rMB/s -> read Megabytes per sec__*
+- rrqm/s -> read request merged per sec/absolute
+- %rrqm -> read request merged percent/relative
+- *__r_await->read request average time wait in ms (1-2 ms for SSD, ~20 HDD)__*
+- rreq-sz -> read req size in  KB
 
 
+#### Write Ops
+- w/s -> write per sec
+- *__wMB/s -> write MiBs per sec__*
+- wrmq/s -> write request merged per sec
+- %wrqm -> write req merged percent
+- *__w_await->wait request average time wait in ms (2-5 ms for SSD, ~30 HDD)__*
+- wreq-sz -> write req size in  KB
 
+### discarded Ops -> ignore (d/s, dMB/s, dareq-sz)
+
+### Overall metrics (rightmost side)
+
+ - f/s -> flush(sync()) operation per second
+ - f_wait -> flush wait time
+ - aqu-sz -> average queue size, latency buildup reason
+ - *__%util -> percent of utilization, most important metric__*
 
 
 
