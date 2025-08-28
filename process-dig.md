@@ -49,3 +49,32 @@ sudo ltrace -c -p {PID}
 ![alt text](image-7.png)
 
 same as strace, instead of syscalls we can see libcalls, dynamic shared library calls, this stress -c 1 has no syscall, syscall  is clear
+
+
+
+# pidstat -> get I/O and CW info per process
+
+
+### get I/O operations based on PID
+```bash
+pidstat -d -p {PID} 1 #-d -> disk , 1 -> refresh intervalclear
+# add -t for per thread stats
+```
+
+
+![alt text](image-8.png)
+
+
+
+
+### *__get CW info based on PID (important)__*
+
+```bash
+pidstat -p {PID} -w
+```
+![alt text](image-9.png)
+
+
+cswch/s -> voluntary context switches, Sleep(), IO_wait(), read()...
+
+nvcswch/s -> non-voluntary, time slice expired, high priority takeover, resource limits. This indicates CPU being overloaded, remember preemtive scheduling ?
