@@ -32,15 +32,31 @@ Press "H" so switch to thread views
 First Line: From uptime
 Second: Running and sleep monitor. "H" to switch to threads.
 
+```bash
+top -c -d #interactive mode, more fun, d -> refresh time, can be 1,2,3 or even 0.1
+
+# 1 -> individual cpu display toggle(mpstat)
+# t -> cycle cpu display modes
+# m -> cycle memory display modes
+# H (CAPS lock and h) -> thread view toggle
+# V -> tree view toggle
+
+
+#--------------------Sorting Keys, More imp-----------#
+# P -> sort by CPU usage
+# M -> sort by Mem Usage
+# T -> running time
+```
+
 **zombie-> parent aint handling childs, when parent dies, init takes them over**
 
-us -> user space
-sy -> system kerner space
-ni -> low priority process
-id -> idle time (sleep or waiting for external event)
-wa -> wait, mostly IO, N.B: network wait is not I/O, its maily disk, keyboard ...
-hi -> Hardware Interrupts,input from keyboard, network packet, ...
-si -> software interrupt, eg: time.sleep(time.nanoseconds() * 5) in infinite loop;
+- us -> user space
+- sy -> system kerner space
+- ni -> low priority process
+- id -> idle time (sleep or waiting for external event)
+- wa -> wait, mostly IO, N.B: network wait is not I/O, its maily disk, keyboard ...
+- hi -> Hardware Interrupts,input from keyboard, network packet, ...
+- si -> software interrupt, eg: time.sleep(time.nanoseconds() * 5) in infinite loop;
 
 MiB Mem: Physical Memory 
 - total: actual physical memory available to system
