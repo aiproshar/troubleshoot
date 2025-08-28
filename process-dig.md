@@ -78,3 +78,14 @@ pidstat -p {PID} -w
 cswch/s -> voluntary context switches, Sleep(), IO_wait(), read()...
 
 nvcswch/s -> non-voluntary, time slice expired, high priority takeover, resource limits. This indicates CPU being overloaded, remember preemtive scheduling ?
+
+
+
+### Perf Record -> Application runtime analysis
+
+```bash
+sudo perf record -p {PID} #dump data for report
+
+perf report #show the generated report
+```
+
