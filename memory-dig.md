@@ -20,6 +20,12 @@ By this we can track when a process is killed (OOM killed)
 ![alt text](image-10.png)
 
 
+### check are we using swap, how much left
+
+```bash
+swapon -s #summary
+```
+
 ### PID Stat memory analysis (Most important)
 
 ```bash
