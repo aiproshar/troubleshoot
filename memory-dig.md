@@ -33,4 +33,4 @@ VSZ -> virtual size
 RSS -> Resident size
 
 - minFaults-> Cache missed, accessed memory
-- majFaults-> Not in memory, had to go to HDD, either HDD or SWAP, these are serious, makes system sluggish, latency skyrocket
+- majFaults-> Not in memory, had to go to HDD, either swap for data due to memory pressure, or trying to read a file form disk (not in cache)
