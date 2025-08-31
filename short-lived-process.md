@@ -83,9 +83,16 @@ sudo perf top
 
 sudo perf recoed -F 99 -a -g -- sleep 10
 
-sudo perf report
+sudo perf report --stdio
 ```
 
 ![alt text](image-19.png)
 
 Ahh, someone is calling checksum (cksum)
+
+
+Lets see our output of perf report
+
+![alt text](image-20.png)
+
+Much cleaner 
