@@ -96,3 +96,34 @@ Lets see our output of perf report
 ![alt text](image-20.png)
 
 Much cleaner 
+
+
+### Now we figured out someone is calling these cksum processes, and i mean a lot. How we find them ?
+
+### perf trace
+
+```bash
+sudo perf trace -e sched:sched_process_fork 
+```
+
+*__this will show us all the fork trails, the first step of short lived process creation__*
+
+![alt text](image-21.png)
+
+
+*__now lets dig deeper, we want to know what was called using fork, so lets run scheduler events for exec__*
+
+```bash
+sudo perf trace -e sched:sched_process_exec
+```
+
+
+The output
+
+![alt text](image-22.png)
+
+### OMG, Shell is now calling checksum like nuts! Thats how we track down short lived process
+
+Remember,
+- perf record and record whole system stats, use -a -g to symlink and record all
+- perf trace events, to find out who is forking and then exec to find out who is calling chksm
