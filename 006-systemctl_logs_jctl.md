@@ -168,5 +168,36 @@ journalctl -xfu nginx --since "4 hour ago"
 
 ### cleaning up log files, on an emergency situation
 
+```bash
+sudo journalctl --vacuum-size=100M #only keep upto 100mb logs
+
+sudo journalctl --vacuum-time=2d  #only keep last 2 days of logs
+
+sudo journalctl --rotate     # Force rotation immediately
+```
 
 
+
+# logrotate
+
+Automatically cleans up logs, as per configuration, designed to easy administration of logs
+
+```bash
+cat /etc/logrotate.conf #log rotate conf
+```
+but there is a directory called /ect/logrotate.d whic contains all the logrotate conf for each service. 
+
+```bash
+ls -l /etc/logrotate.d  
+```
+![alt text](image-25.png)
+
+lets dig deep to nginx configuration
+```bash
+cat /etc/logrotate.d/nginx
+```
+![alt text](image-26.png)
+
+/var/log/nginx/*.log
+daily -> daily rotation
+rotate 14 -> 14 days rotation period
